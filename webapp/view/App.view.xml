@@ -1,0 +1,11 @@
+<mvc:View controllerName="com.po.countdowntimer.controller.App"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Shell  id="sl">
+    <App id="app">
+    
+    
+    </App>
+    </Shell>
+</mvc:View>
