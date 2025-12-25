@@ -1,39 +1,36 @@
-<mvc:View controllerName="com.po.countdowntimer.controller.View1"
+<mvc:View
+    controllerName="com.po.countdowntimer.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
-    xmlns="sap.m">
-    <Page id="page" class="sapUiResponsiveContentPadding" title="{i18n>title}">
-    <VBox id="vbox">
-     <Input id="input"  class="sapUiTinyMarginEnd"      width="20rem" maxLength="10"/>
-     <ComboBox id="idcategory" placeholder="category">
-     <items>
-    <core:Item  id="comboBoxItem1" key="0" text="food"/>
-    <core:Item  id="comboBoxItem2" key="1" text="foods"/>
-    <core:Item  id="comboBoxItem3" key="2" text="Beverages"/>
-    <core:Item  id="comboBoxItem4" key="3" text="Electronics"/>
-    </items>
-    </ComboBox>
-    <Input id="idprice"  class="sapUiTinyMarginEnd"   placeholder="{i18n>price}"   type="Number" width="20rem" maxLength="10"/>
-    <DatePicker id="idReleasedate" placeholder="{i18n>releasedate}" />
-    <DatePicker id="idDiscontinueddate" placeholder="{i18n>discontinueddate}" />
-    </VBox>
-   
-    <Button id="button" text="{i18n>selectMe}" press="onPressNewproduct"/>
-    <List id="idList"  class="sapUiTinyMarginTop"  backgroundDesign= "Transparent" headerText="Products" mode="Delete" delete="onPressDelete"/>
-    <!-- <ObjectListItem id="idObject"   title="Macc bock"  number="1000" numberUnit="Eur">
-    <attributes>
-    <ObjectAttribute id="objectAtribute1"   title="Categories" text="Electronics"/>
-    <ObjectAttribute id="objectAtribute2"   title="ReleaseDate" text="22-12-2025"/>
-    </attributes>
-    <firstStatus>
-    <ObjectStatus id="objectStatus"  text="available" state="Success" />
-    </firstStatus>
-    </ObjectListItem> -->
-    <!-- </List> -->
-    <footer>
-    <Toolbar id="tl">
-    <Text id= "tx" text="I AM FOOTER"/>
-    </Toolbar>
-    </footer>
+
+    xmlns="sap.m"
+ 
+>
+    <Page
+        id="page"
+        class="sapUiResponsiveContentPadding"
+        title="{i18n>title}"
+    >
+     <content>
+    <core:Fragment type="XML"  fragmentName="com.po.countdowntimer.view.fragments.CreateProduct"/>
+       
+        <List
+            id="idList"
+            class="sapUiTinyMarginTop"
+            backgroundDesign="Transparent"
+            headerText="Products"
+            mode="Delete"
+            delete="onPressDelete"
+        />
+         </content>
+
+        <footer>
+            <Toolbar id="tl">
+                <Text
+                    id="tx"
+                    text="I AM FOOTER"
+                />
+            </Toolbar>
+        </footer>
     </Page>
 </mvc:View>

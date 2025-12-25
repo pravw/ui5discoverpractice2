@@ -3,7 +3,7 @@ sap.ui.define([
     "sap/m/ObjectListItem",
      "sap/m/ObjectAttribute",
      "sap/m/ObjectStatus",
-    //  "sap/ui/core/ValueState"
+
     "sap/ui/core/library"
 ], (Controller,ObjectListItem,ObjectAttribute,ObjectStatus,coreLibrary) => {
     "use strict";

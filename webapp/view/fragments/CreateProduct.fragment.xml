@@ -1,0 +1,109 @@
+<core:FragmentDefinition
+  xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout">
+
+
+   <form:SimpleForm
+            id="simpleform"
+            layout="ResponsiveGridLayout"
+            editable="true"
+            breakpointM="600px"
+            breakpointL="1024px"
+            breakpointXL="1440px"
+            emptySpanM="0"
+            emptySpanL="1"
+            emptySpanXL="1"
+            labelSpanS="12"
+            labelSpanM="3"
+            labelSpanL="3"
+            adjustLabelSpan="false"
+            columnsL="2"
+            columnsXL="2"
+        >
+            <form:content>
+                <core:Title    text="{i18n>productDetails}"/>
+                <Label id="idlable" text="{i18n>productName}" />
+                <Input
+                    id="input"
+                    maxLength="10"
+                />
+                <Label  id="idlablecategory" text="{i18n>category}" />
+                <ComboBox
+                    id="idcategory"
+                    placeholder="category"
+                >
+                    <items>
+                        <core:Item
+                            id="comboBoxItem1"
+                            key="0"
+                            text="food"
+                        />
+                        <core:Item
+                            id="comboBoxItem2"
+                            key="1"
+                            text="foods"
+                        />
+                        <core:Item
+                            id="comboBoxItem3"
+                            key="2"
+                            text="Beverages"
+                        />
+                        <core:Item
+                            id="comboBoxItem4"
+                            key="3"
+                            text="Electronics"
+                        />
+                    </items>
+                </ComboBox>
+                <Label id="label" text="{i18n>price}" />
+                 <Input
+                id="idprice"
+                class="sapUiTinyMarginEnd"
+                placeholder="{i18n>price}"
+                type="Number"
+                width="20rem"
+                maxLength="10"
+            />
+             
+            <Input id="input1"
+                            value="EUR"
+                            editable="false"
+                        >
+            <layoutData>
+            <l:GridData span="XL1 L2 M3 S12"/>
+            </layoutData>
+            </Input>
+            
+            <core:Title    text="{i18n>dates}"/>
+            <Label id="labelreleasedate" text="{i18n>releasedate}" />
+            <DatePicker
+                id="idReleasedate"
+                placeholder="{i18n>releasedate}"
+            />
+            <Label id="labeldiscountdate" text="{i18n>discontinueddate}" />
+              <DatePicker
+                id="idDiscontinueddate"
+                placeholder="{i18n>discontinueddate}"
+            />
+            
+            </form:content>
+        </form:SimpleForm>
+       
+     <Button
+            id="button"
+            text="{i18n>selectMe}"
+            press="onPressNewproduct"
+            type="Emphasized"
+        />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </core:FragmentDefinition>
