@@ -3,9 +3,9 @@ sap.ui.define([
     "sap/m/ObjectListItem",
      "sap/m/ObjectAttribute",
      "sap/m/ObjectStatus",
-
-    "sap/ui/core/library"
-], (Controller,ObjectListItem,ObjectAttribute,ObjectStatus,coreLibrary) => {
+    "sap/ui/core/library",
+    "sap/ui/core/Fragment"
+], (Controller,ObjectListItem,ObjectAttribute,ObjectStatus,coreLibrary,Fragment) => {
     "use strict";
 
     return Controller.extend("com.po.countdowntimer.controller.View1", {
@@ -35,7 +35,10 @@ sap.ui.define([
             text : this._getAvailibilityText(sDiscontinueDate),
             state : this._getAvailibilityState(sDiscontinueDate)
 
-             })
+             }),
+
+       
+      
         
       })
     );
@@ -65,7 +68,28 @@ sap.ui.define([
        return oDate > new Date() ?  ValueState.Success:ValueState.Error;
 
 
-    }
+    },
+      onPressAddNewProducts: function() {
+   
+      if (!this._oCreateProductDialog) {
+        Fragment.load({
+          id: this.getView().getId(),
+          name: "com.po.countdowntimer.view.fragments.CreateProduct",
+          controller: this
+        }).then(oDialog => {
+          this._oCreateProductDialog = oDialog
+          this.getView().addDependent(oDialog)
+          oDialog.open()
+        })
+      } else {
+        this._oCreateProductDialog.open()
+      }
+    },
+    onPresscancelNewproduct: function () {
+  this._oCreateProductDialog.close();
+},
+
+
 
     
 

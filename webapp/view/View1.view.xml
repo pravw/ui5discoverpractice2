@@ -1,28 +1,38 @@
-<mvc:View
+<!-- <mvc:View
     controllerName="com.po.countdowntimer.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
-
     xmlns="sap.m"
- 
 >
     <Page
         id="page"
         class="sapUiResponsiveContentPadding"
         title="{i18n>title}"
     >
-     <content>
-    <core:Fragment type="XML"  fragmentName="com.po.countdowntimer.view.fragments.CreateProduct"/>
-       
-        <List
-            id="idList"
-            class="sapUiTinyMarginTop"
-            backgroundDesign="Transparent"
-            headerText="Products"
-            mode="Delete"
-            delete="onPressDelete"
-        />
-         </content>
+        <content>
+            <core:Fragment
+                type="XML"
+                fragmentName="com.po.countdowntimer.view.fragments.CreateProduct"
+            />
+                       <Toolbar class="sapUiTinyMarginTop">
+                <Title text="ListHeader" />
+                <ToolbarSpacer />
+                <Button
+                    text="Add"
+                    icon="sap-icon://add"
+                    press="onPressAddNewProduct" />
+            </Toolbar>
+
+            <List
+                id="idList"
+                class="sapUiTinyMarginTop"
+                backgroundDesign="Transparent"
+                headerText="Products"
+                mode="Delete"
+                delete="onPressDelete"
+            >
+            </List>
+        </content>
 
         <footer>
             <Toolbar id="tl">
@@ -33,4 +43,54 @@
             </Toolbar>
         </footer>
     </Page>
+</mvc:View> -->
+
+
+
+
+<mvc:View
+    controllerName="com.po.countdowntimer.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+
+    <Page
+        id="page"
+        class="sapUiResponsiveContentPadding"
+        title="{i18n>title}">
+
+        <content>
+            <!-- <core:Fragment
+                type="XML"
+                fragmentName="com.po.countdowntimer.view.fragments.CreateProduct" /> -->
+
+            <!-- Header toolbar for the list -->
+            <Toolbar class="sapUiTinyMarginTop">
+                <Title text="ListHeader" />
+                <ToolbarSpacer />
+                <Button
+                    text="Add"
+                    icon="sap-icon://add"
+                    press="onPressAddNewProducts" />
+            </Toolbar>
+
+            <!-- List -->
+            <List
+                id="idList"
+                backgroundDesign="Transparent"
+                mode="Delete"
+                delete="onPressDelete">
+            </List>
+        </content>
+
+        <footer>
+            <Toolbar id="tl">
+                <Text
+                    id="tx"
+                    text="I AM FOOTER" />
+            </Toolbar>
+        </footer>
+
+    </Page>
 </mvc:View>
+ 
