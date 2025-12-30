@@ -17,7 +17,7 @@ sap.ui.define([
             UIComponent.prototype.init.apply(this, arguments);
 
             // set the device model
-            this.setModel(models.createDeviceModel(), "device");
+            this.setModel(models.createInputModel(), "input");
 
             // enable routing
             this.getRouter().initialize();

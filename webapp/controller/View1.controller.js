@@ -4,8 +4,9 @@ sap.ui.define([
      "sap/m/ObjectAttribute",
      "sap/m/ObjectStatus",
     "sap/ui/core/library",
-    "sap/ui/core/Fragment"
-], (Controller,ObjectListItem,ObjectAttribute,ObjectStatus,coreLibrary,Fragment) => {
+    "sap/ui/core/Fragment",
+    "com/po/countdowntimer/model/models"
+], (Controller,ObjectListItem,ObjectAttribute,ObjectStatus,coreLibrary,Fragment,models) => {
     "use strict";
 
     return Controller.extend("com.po.countdowntimer.controller.View1", {
@@ -14,26 +15,29 @@ sap.ui.define([
         
    onPressNewproduct: function(){
 
+
+    const oData = this.getView().getModel("input").getData()
+
       // get input value
-      const sInput= this.getView().byId("input").getValue()
-    const sCategory = this.getView().byId("idcategory").getSelectedItem();
-    const sPrice = this.getView().byId("idprice").getValue()
-    const sReleaseDate =  this.getView().byId("idReleasedate").getDateValue()
-    const sDiscontinueDate =  this.getView().byId("idDiscontinueddate").getDateValue()
+    //   const sInput= this.getView().byId("input").getValue()
+    // const sCategory = this.getView().byId("idcategory").getSelectedItem();
+    // const sPrice = this.getView().byId("idprice").getValue()
+    // const sReleaseDate =  this.getView().byId("idReleasedate").getDateValue()
+    // const sDiscontinueDate =  this.getView().byId("idDiscontinueddate").getDateValue()
     //   adding the new item
 
       this.getView().byId("idList").addItem(new ObjectListItem({
-        title:sInput,
-        number:sPrice,
+        title:oData.Name,
+        number:oData.Price,
         numberUnit:"Eur",
         attributes:[
-          new ObjectAttribute({ title:"category"   ,  text: sCategory.getText()}),
-          new ObjectAttribute({ title:"ReleaseDate"   ,  text:sReleaseDate}),
+          new ObjectAttribute({ title:"category"   ,  text: oData.Category}),
+          new ObjectAttribute({ title:"ReleaseDate"   ,  text:oData.ReleaseDate}),
         ],
         firstStatus:
           new ObjectStatus({ 
-            text : this._getAvailibilityText(sDiscontinueDate),
-            state : this._getAvailibilityState(sDiscontinueDate)
+            text : this._getAvailibilityText(oData.DiscountinuedDate),
+            state : this._getAvailibilityState(oData.DiscontinueDate)
 
              }),
 
@@ -86,12 +90,24 @@ sap.ui.define([
       }
     },
     onPresscancelNewproduct: function () {
-  this._oCreateProductDialog.close();
-},
+    this._oCreateProductDialog.close();
+
+
+    console.log(this.getView().getModel("input").getData())
+     },
+
+     onAftercloseDialog:function(){
+
+        this.getOwnerComponent().setModel(models.createInputModel(),"input")
+      
+
+
+     }
 
 
 
     
 
 });
+
 });

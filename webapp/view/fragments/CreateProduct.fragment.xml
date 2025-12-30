@@ -3,7 +3,7 @@
     xmlns:form="sap.ui.layout.form"
     xmlns="sap.m"
     xmlns:l="sap.ui.layout">
-    <Dialog title="{i18n>createNewProduct}" contentWidth="800px">
+    <Dialog title="{i18n>createNewProduct}" contentWidth="800px" afterClose="onAftercloseDialog">
      <content>
          <form:SimpleForm
             id="simpleform"
@@ -28,11 +28,14 @@
                 <Input
                     id="input"
                     maxLength="10"
+                    value="{input>/Name}"
+                    valueLiveUpdate="true"
                 />
                 <Label  id="idlablecategory" text="{i18n>category}" />
                 <ComboBox
                     id="idcategory"
                     placeholder="category"
+                    selectedKey="{input>/Category}"
                 >
                     <items>
                         <core:Item
@@ -61,10 +64,11 @@
                  <Input
                 id="idprice"
                 class="sapUiTinyMarginEnd"
-                placeholder="{i18n>price}"
+                valueLiveUpdate="true"
                 type="Number"
                 width="20rem"
                 maxLength="10"
+                value="{input>/category}"
             />
              
             <Input id="input1"
@@ -81,11 +85,12 @@
             <DatePicker
                 id="idReleasedate"
                 placeholder="{i18n>releasedate}"
+                value="{input>/ReleaseDate}"  
             />
             <Label id="labeldiscountdate" text="{i18n>discontinueddate}" />
               <DatePicker
                 id="idDiscontinueddate"
-                placeholder="{i18n>discontinueddate}"
+                value="{input>/DiscountinuedDate}"
             />
             
             </form:content>
