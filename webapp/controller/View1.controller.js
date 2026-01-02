@@ -1,78 +1,62 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/m/ObjectListItem",
-     "sap/m/ObjectAttribute",
-     "sap/m/ObjectStatus",
     "sap/ui/core/library",
     "sap/ui/core/Fragment",
-    "com/po/countdowntimer/model/models"
-], (Controller,ObjectListItem,ObjectAttribute,ObjectStatus,coreLibrary,Fragment,models) => {
+    "com/po/countdowntimer/model/models",
+    "com/po/countdowntimer/model/formatter"
+
+], (Controller,coreLibrary,Fragment,models,formatter) => {
     "use strict";
 
     return Controller.extend("com.po.countdowntimer.controller.View1", {
-        onInit() {
-        },
-        
+      formatter:formatter,
+      
    onPressNewproduct: function(){
 
 
     const oData = this.getView().getModel("input").getData()
 
-      // get input value
-    //   const sInput= this.getView().byId("input").getValue()
-    // const sCategory = this.getView().byId("idcategory").getSelectedItem();
-    // const sPrice = this.getView().byId("idprice").getValue()
-    // const sReleaseDate =  this.getView().byId("idReleasedate").getDateValue()
-    // const sDiscontinueDate =  this.getView().byId("idDiscontinueddate").getDateValue()
-    //   adding the new item
 
-      this.getView().byId("idList").addItem(new ObjectListItem({
-        title:oData.Name,
-        number:oData.Price,
-        numberUnit:"Eur",
-        attributes:[
-          new ObjectAttribute({ title:"category"   ,  text: oData.Category}),
-          new ObjectAttribute({ title:"ReleaseDate"   ,  text:oData.ReleaseDate}),
-        ],
-        firstStatus:
-          new ObjectStatus({ 
-            text : this._getAvailibilityText(oData.DiscountinuedDate),
-            state : this._getAvailibilityState(oData.DiscontinueDate)
+     const aItems = oProductModel.getProperty("/items") 
+      aItems.push(oData)
+       oProductModel.setProperty("/items", aItems)
 
-             }),
 
-       
-      
-        
-      })
-    );
+
 
  
     },
 
     onPressDelete: function(oEvent){
 
-      const oItem = oEvent.getParameter("listItem")
+      const oItem = oEvent.getParameter("listItem");
+      const oModel = this.getView().getModel("product")
+      const iIndex = oItem.getBindingContext("product").getPath().split("/").pop()
+      oModel.getData().items.splice(iIndex, 1)
+      oModel.refresh()
 
-      this.getView().byId("idList").removeItem(oItem)
+
+
+      console.log(spath)
+     
     },
 
-    _getAvailibilityText:function(sDate){
-      const oDate = new Date(sDate);
+    // _getAvailibilityText:function(sDate){
+    //   const oDate = new Date(sDate);
 
-         return oDate > new Date() ?  "Available":"Unavailable";
+    //      return oDate > new Date() ?  "Available":"Unavailable";
 
-    },
+    // },
 
-    _getAvailibilityState:function(sDate){
+    // _getAvailibilityState:function(sDate){
 
-      const ValueState = coreLibrary.ValueState;
-      const oDate = new Date(sDate);
+    //   const ValueState = coreLibrary.ValueState;
+    //   const oDate = new Date(sDate);
 
-       return oDate > new Date() ?  ValueState.Success:ValueState.Error;
+    //    return oDate > new Date() ?  ValueState.Success:ValueState.Error;
 
 
-    },
+    // },
       onPressAddNewProducts: function() {
    
       if (!this._oCreateProductDialog) {

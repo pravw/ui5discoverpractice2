@@ -90,6 +90,7 @@
             <Label id="labeldiscountdate" text="{i18n>discontinueddate}" />
               <DatePicker
                 id="idDiscontinueddate"
+                placeholder="{i18n>discontinueddate}"
                 value="{input>/DiscountinuedDate}"
             />
             

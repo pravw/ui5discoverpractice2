@@ -1,50 +1,3 @@
-<!-- <mvc:View
-    controllerName="com.po.countdowntimer.controller.View1"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns:core="sap.ui.core"
-    xmlns="sap.m"
->
-    <Page
-        id="page"
-        class="sapUiResponsiveContentPadding"
-        title="{i18n>title}"
-    >
-        <content>
-            <core:Fragment
-                type="XML"
-                fragmentName="com.po.countdowntimer.view.fragments.CreateProduct"
-            />
-                       <Toolbar class="sapUiTinyMarginTop">
-                <Title text="ListHeader" />
-                <ToolbarSpacer />
-                <Button
-                    text="Add"
-                    icon="sap-icon://add"
-                    press="onPressAddNewProduct" />
-            </Toolbar>
-
-            <List
-                id="idList"
-                class="sapUiTinyMarginTop"
-                backgroundDesign="Transparent"
-                headerText="Products"
-                mode="Delete"
-                delete="onPressDelete"
-            >
-            </List>
-        </content>
-
-        <footer>
-            <Toolbar id="tl">
-                <Text
-                    id="tx"
-                    text="I AM FOOTER"
-                />
-            </Toolbar>
-        </footer>
-    </Page>
-</mvc:View> -->
-
 
 
 
@@ -60,11 +13,7 @@
         title="{i18n>title}">
 
         <content>
-            <!-- <core:Fragment
-                type="XML"
-                fragmentName="com.po.countdowntimer.view.fragments.CreateProduct" /> -->
 
-            <!-- Header toolbar for the list -->
             <Toolbar class="sapUiTinyMarginTop">
                 <Title text="ListHeader" />
                 <ToolbarSpacer />
@@ -77,9 +26,48 @@
             <!-- List -->
             <List
                 id="idList"
+                items="{product>/items}"
                 backgroundDesign="Transparent"
                 mode="Delete"
                 delete="onPressDelete">
+
+                <items>
+                        <ObjectListItem title="{product>Name}" 
+                        number="{
+                        parts:['product>Price','product>Currency'],
+                        type: 'sap.ui.model.type.Currency',
+                        formatOptions:{showmeasure:false}}"
+                        numberState="{= ${product>Price} > 20 ? 'Warning' : 'None'}"
+                                            numberUnit="{product>Currency}">
+                         
+                        <attributes>
+                        <ObjectAttribute title="Category" text="{product>Category}"/>
+                        <ObjectAttribute 
+                        title="ReleaseDate" 
+                        text="{
+
+                        path:'product>ReleaseDate',
+                        type:'sap.ui.model.type.Date',
+                        formatOptions:{
+                            source:{ pattern :'yyyy-MM-ddTHH:mm:ss.SSSX'},
+                            style:'short'
+                        }
+                        }"/>
+                        <ObjectAttribute 
+                        visible="{= !!${product>Width} &amp;&amp; !!${product>Height} &amp;&amp; !!${product>Depth}}"
+                        text="{product>Width} x {product>Height} x {product>Depth} cm" />
+                       
+                        </attributes>
+                        <firstStatus>
+                        <ObjectStatus 
+                        text="{
+                        path:'product>DiscontinuedDate',
+                        formatter:'.formatter.formatAvailabilityText'                   }"
+                        state="{ path:'product>DiscontinuedDate',
+                        formatter:'.formatter.formatAvailabilityState'}" />
+                        </firstStatus>
+                        </ObjectListItem>
+                </items>
             </List>
         </content>
 
