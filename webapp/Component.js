@@ -19,6 +19,10 @@ sap.ui.define([
             // set the device model
             this.setModel(models.createInputModel(), "input");
 
+             this.setModel(models.createValidationModel(), "validate");
+
+
+
             // enable routing
             this.getRouter().initialize();
         }

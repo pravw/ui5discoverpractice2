@@ -13,18 +13,29 @@ sap.ui.define([
       
    onPressNewproduct: function(){
 
+     
+
 
     const oData = this.getView().getModel("input").getData()
 
 
+
+    //  if (!this._validate()) return
+     if (!this._validate()) {
+        console.log("❌ Validation failed.");
+        return;
+      }
+
+         
+    const oProductModel = this.getView().getModel("product");
      const aItems = oProductModel.getProperty("/items") 
+
+
       aItems.push(oData)
        oProductModel.setProperty("/items", aItems)
 
+   this._oCreateProductDialog.close();
 
-
-
- 
     },
 
     onPressDelete: function(oEvent){
@@ -41,22 +52,6 @@ sap.ui.define([
      
     },
 
-    // _getAvailibilityText:function(sDate){
-    //   const oDate = new Date(sDate);
-
-    //      return oDate > new Date() ?  "Available":"Unavailable";
-
-    // },
-
-    // _getAvailibilityState:function(sDate){
-
-    //   const ValueState = coreLibrary.ValueState;
-    //   const oDate = new Date(sDate);
-
-    //    return oDate > new Date() ?  ValueState.Success:ValueState.Error;
-
-
-    // },
       onPressAddNewProducts: function() {
    
       if (!this._oCreateProductDialog) {
@@ -83,10 +78,30 @@ sap.ui.define([
      onAftercloseDialog:function(){
 
         this.getOwnerComponent().setModel(models.createInputModel(),"input")
+        this.getOwnerComponent().setModel(models.createValidationModel(),"validate")
+
       
 
 
-     }
+     },
+
+
+     _validate(){
+      const oInput = this.getView().getModel("input").getData()
+      const oValidationModel = this.getView().getModel("validate")
+
+      // check the  input model.setProperty(path, value);
+
+      oValidationModel.setProperty("/Name", !! oInput.Name)
+      oValidationModel.setProperty("/Category", !! oInput.Category)
+      oValidationModel.setProperty("/ReleaseDate", !! oInput.ReleaseDate)
+      oValidationModel.setProperty("/DiscountinuedDate", !! oInput.DiscountinuedDate)
+
+     // Return validation result
+      return !Object.values(oValidationModel.getData()).includes(false)
+
+    }
+
 
 
 

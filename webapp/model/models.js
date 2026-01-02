@@ -17,7 +17,34 @@ function (JSONModel,BindingMode, Device) {
                 ReleaseDate:null,
                 DiscountinuedDate:null,
             }).setDefaultBindingMode(BindingMode.TwoWay)
-        }
+        },
+
+
+              createValidationModel: function () {
+         
+            return new JSONModel({
+                Name:true,
+                Category:true,
+                Price:true,
+                ReleaseDate:true,
+                DiscountinuedDate:true,
+            }).setDefaultBindingMode(BindingMode.TwoWay)
+        },
+
+
+        
+
+
+        
+
+
+
+
+
+
+
+
+
     };
 
 });

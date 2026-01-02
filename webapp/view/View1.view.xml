@@ -62,14 +62,14 @@
                         <ObjectStatus 
                         text="{
                         path:'product>DiscontinuedDate',
-                        formatter:'.formatter.formatAvailabilityText'                   }"
+                        formatter:'.formatter.formatAvailabilityText' }"
                         state="{ path:'product>DiscontinuedDate',
                         formatter:'.formatter.formatAvailabilityState'}" />
                         </firstStatus>
                         </ObjectListItem>
-                </items>
-            </List>
-        </content>
+                        </items>
+                         </List>
+                        </content>
 
         <footer>
             <Toolbar id="tl">

@@ -24,18 +24,20 @@
         >
             <form:content>
                 <core:Title    text="{i18n>productDetails}"/>
-                <Label id="idlable" text="{i18n>productName}" />
+                <Label  required="true"         id="idlable" text="{i18n>productName}" />
                 <Input
                     id="input"
                     maxLength="10"
                     value="{input>/Name}"
                     valueLiveUpdate="true"
+                    valueState= "{= ${validate>/Name} ?  'None' : 'Error'   }"
                 />
-                <Label  id="idlablecategory" text="{i18n>category}" />
+                <Label required="true"  id="idlablecategory" text="{i18n>category}" />
                 <ComboBox
                     id="idcategory"
                     placeholder="category"
                     selectedKey="{input>/Category}"
+                    valueState= "{= ${validate>/Category} ?  'None' : 'Error'   }"
                 >
                     <items>
                         <core:Item
@@ -60,7 +62,10 @@
                         />
                     </items>
                 </ComboBox>
-                <Label id="label" text="{i18n>price}" />
+                <Label  required="true" 
+                id="label" 
+                text="{i18n>price}" 
+                />
                  <Input
                 id="idprice"
                 class="sapUiTinyMarginEnd"
@@ -68,7 +73,8 @@
                 type="Number"
                 width="20rem"
                 maxLength="10"
-                value="{input>/category}"
+                value="{input>/Price}"
+                valueState= "{= ${validate>/Price} ?  'None' : 'Error'   }"
             />
              
             <Input id="input1"
@@ -81,17 +87,20 @@
             </Input>
             
             <core:Title    text="{i18n>dates}"/>
-            <Label id="labelreleasedate" text="{i18n>releasedate}" />
+            <Label  required="true"  id="labelreleasedate" text="{i18n>releasedate}" />
             <DatePicker
                 id="idReleasedate"
                 placeholder="{i18n>releasedate}"
                 value="{input>/ReleaseDate}"  
+                valueState= "{= ${validate>/ReleaseDate} ?  'None' : 'Error'   }"
+                
             />
             <Label id="labeldiscountdate" text="{i18n>discontinueddate}" />
               <DatePicker
                 id="idDiscontinueddate"
                 placeholder="{i18n>discontinueddate}"
                 value="{input>/DiscountinuedDate}"
+                valueState= "{= ${validate>/DiscountinuedDate} ?  'None' : 'Error'   }"
             />
             
             </form:content>
@@ -102,17 +111,12 @@
      </content>
 
     <beginButton>
-
         <Button
             id="button"
             text="{i18n>create}"
             press="onPressNewproduct"
             type="Emphasized"
         />
-    
-    
-    
-    
     </beginButton>
 
     <endButton>
