@@ -2,19 +2,16 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/library",
     "sap/ui/core/Fragment",
+    "sap/ui/model/Sorter",
     "com/po/countdowntimer/model/models",
     "com/po/countdowntimer/model/formatter"
-
-], (Controller,coreLibrary,Fragment,models,formatter) => {
+], (Controller,coreLibrary,Fragment,Sorter,models,formatter) => {
     "use strict";
 
     return Controller.extend("com.po.countdowntimer.controller.View1", {
       formatter:formatter,
       
    onPressNewproduct: function(){
-
-     
-
 
     const oData = this.getView().getModel("input").getData()
 
@@ -71,20 +68,45 @@ sap.ui.define([
     onPresscancelNewproduct: function () {
     this._oCreateProductDialog.close();
 
-
     console.log(this.getView().getModel("input").getData())
      },
+
+
+
+      onSortButtonPressed:function (){
+
+           if (!this._oSortDialog) {
+        Fragment.load({
+          id: this.getView().getId(),
+          name: "com.po.countdowntimer.view.fragments.SortDialog",
+          controller: this
+        }).then(oDialog => {
+          this._oSortDialog = oDialog
+          this.getView().addDependent(oDialog)
+          oDialog.open()
+        })
+      } else {
+        this._oSortDialog.open()
+      }      
+    },
 
      onAftercloseDialog:function(){
 
         this.getOwnerComponent().setModel(models.createInputModel(),"input")
         this.getOwnerComponent().setModel(models.createValidationModel(),"validate")
-
-      
-
-
      },
 
+
+     onConfirmSort: function(oEvent){
+      const oSortItem = oEvent.getParameter("sortItem")
+      const bDescending = oEvent.getParameter("sortDescending")
+
+        this.getView()
+        .byId('idList')
+        .getBinding('items')
+        .sort(oSortItem ? [new Sorter(oSortItem.getKey(), bDescending)] : [])
+
+     },
 
      _validate(){
       const oInput = this.getView().getModel("input").getData()
@@ -101,12 +123,6 @@ sap.ui.define([
       return !Object.values(oValidationModel.getData()).includes(false)
 
     }
-
-
-
-
-    
-
 });
 
 });

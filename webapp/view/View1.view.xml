@@ -1,6 +1,4 @@
 
-
-
 <mvc:View
     controllerName="com.po.countdowntimer.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
@@ -18,6 +16,10 @@
                 <Title text="ListHeader" />
                 <ToolbarSpacer />
                 <Button
+                    text="sort"
+                    icon="sap-icon://sort"
+                    press="onSortButtonPressed" />
+                  <Button
                     text="Add"
                     icon="sap-icon://add"
                     press="onPressAddNewProducts" />
