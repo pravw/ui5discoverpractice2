@@ -1,0 +1,23 @@
+<!-- <core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ViewSettingsDialog id="GroupDialog" confirm="onConfirmGroup">
+		<sortItems>
+			<ViewSettingsItem text="{i18n>category}" key="Category" selected="true" />
+
+		</sortItems>
+        </ViewSettingsDialog>
+        </core:FragmentDefinition> -->
+
+
+
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ViewSettingsDialog  confirm="onConfirmGroup">
+		<groupItems>
+			<ViewSettingsItem text="{i18n>category}" key="Category"/>
+		</groupItems>
+        </ViewSettingsDialog>
+		</core:FragmentDefinition>	
+

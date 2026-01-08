@@ -45,7 +45,7 @@ sap.ui.define([
 
 
 
-      console.log(spath)
+      
      
     },
 
@@ -90,6 +90,28 @@ sap.ui.define([
       }      
     },
 
+     onGroupButtonPressed:function (){
+
+           if (!this._oGroupDialog) {
+        Fragment.load({
+          id: this.getView().getId(),
+          name: "com.po.countdowntimer.view.fragments.GroupDialog",
+          controller: this
+        }).then(oDialog => {
+          this._oGroupDialog = oDialog
+          this.getView().addDependent(oDialog)
+          oDialog.open()
+        })
+      } else {
+        this._oGroupDialog.open()
+      }      
+    },
+
+
+
+
+
+
      onAftercloseDialog:function(){
 
         this.getOwnerComponent().setModel(models.createInputModel(),"input")
@@ -106,6 +128,21 @@ sap.ui.define([
         .getBinding('items')
         .sort(oSortItem ? [new Sorter(oSortItem.getKey(), bDescending)] : [])
 
+     },
+
+     onConfirmGroup: function(oEvent){
+      // get group related
+
+       console.log("i am error")
+      const oGroupItem = oEvent.getParameter("groupItem")
+      const bDescending = oEvent.getParameter("groupDescending")
+    
+      // If there is a group item selected, sort the list binding.
+      // Else, sort by empty array to reset any existing sorting.
+      this.getView()
+        .byId("idList")
+        .getBinding("items")
+         .sort(oGroupItem ? [new Sorter(oGroupItem.getKey(), bDescending, true /* vGroup */)] : [])
      },
 
      _validate(){
