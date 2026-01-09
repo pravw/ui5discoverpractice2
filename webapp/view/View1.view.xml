@@ -16,15 +16,15 @@
                 <Title text="ListHeader" />
                 <ToolbarSpacer />
                 <Button
-                    text="sort"
+                    icon="sap-icon://filter"
+                    press="onFilterButtonPressed" />
+                <Button
                     icon="sap-icon://sort"
                     press="onSortButtonPressed" />
                     <Button
-                    text="Group"
                     icon="sap-icon://group-2"
                     press="onGroupButtonPressed" />
                   <Button
-                    text="Add"
                     icon="sap-icon://add"
                     press="onPressAddNewProducts" />
             </Toolbar>
@@ -34,15 +34,32 @@
                 id="idList"
                 items="{
                 path:'product>/items',
-                groupHeaderFactory:'.formatter.formatGroupHeader'
-                
-                
-                
-                
+                groupHeaderFactory:'.formatter.formatGroupHeader',
+                filters: [{
+                        path: 'Inactive',
+                        operator: 'NE',
+                        value1: true
+                        }],
+                        sorter: [{
+                         path: 'Name',
+                         descending: false
+                                }] 
                 }"
                 backgroundDesign="Transparent"
                 mode="Delete"
-                delete="onPressDelete">
+                delete="onPressDelete"
+                growingThreshold="20"
+                
+                >
+                <infoToolbar>
+                <Toolbar id="idFilterInfoToolbar" visible="false">
+                
+                <Text id="idFilterText" />
+                
+                
+                </Toolbar>
+                </infoToolbar>
+
 
                 <items>
                         <ObjectListItem title="{product>Name}" 

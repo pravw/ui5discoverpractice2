@@ -3,9 +3,10 @@ sap.ui.define([
     "sap/ui/core/library",
     "sap/ui/core/Fragment",
     "sap/ui/model/Sorter",
+    "sap/ui/model/Filter",
     "com/po/countdowntimer/model/models",
     "com/po/countdowntimer/model/formatter"
-], (Controller,coreLibrary,Fragment,Sorter,models,formatter) => {
+], (Controller,coreLibrary,Fragment,Sorter,Filter,models,formatter) => {
     "use strict";
 
     return Controller.extend("com.po.countdowntimer.controller.View1", {
@@ -70,9 +71,6 @@ sap.ui.define([
 
     console.log(this.getView().getModel("input").getData())
      },
-
-
-
       onSortButtonPressed:function (){
 
            if (!this._oSortDialog) {
@@ -87,6 +85,23 @@ sap.ui.define([
         })
       } else {
         this._oSortDialog.open()
+      }      
+    },
+
+        onFilterButtonPressed:function (){
+
+           if (!this._oFilterDialog) {
+        Fragment.load({
+          id: this.getView().getId(),
+          name: "com.po.countdowntimer.view.fragments.filterDialog",
+          controller: this
+        }).then(oDialog => {
+          this._oFilterDialog = oDialog
+          this.getView().addDependent(oDialog)
+          oDialog.open()
+        })
+      } else {
+        this._oFilterDialog.open()
       }      
     },
 
@@ -144,6 +159,43 @@ sap.ui.define([
         .getBinding("items")
          .sort(oGroupItem ? [new Sorter(oGroupItem.getKey(), bDescending, true /* vGroup */)] : [])
      },
+
+     onConfirmFilter:function(oEvent) {
+
+      // Get filter items from the event object
+      const aFilterItems = oEvent.getParameter('filterItems')
+      // const SFilterString = oEvent.getParameter("filterString")
+     
+      // this will bring the name from selected item
+      const sFilterString = oEvent.getParameter('filterString')
+
+      console.log(aFilterItems);
+      // Create filters array according to the selected filter items
+      const aFilter = []
+
+      aFilterItems.forEach(item => {
+       const [sPath, sOperator, sValue1, sValue2] = item.getKey().split('__')
+       aFilter.push(new Filter(sPath, sOperator, sValue1, sValue2))
+         })
+         
+          //  this will bind in ui
+         this.getView()
+         .byId('idList')
+         .getBinding('items')
+         .filter(aFilter)
+
+            // Show info header if there are any filters
+         this.getView().byId('idFilterInfoToolbar').setVisible(aFilter.length ? true : false)
+         this.getView().byId('idFilterText').setText(sFilterString)
+       
+
+
+     },
+
+
+       
+
+
 
      _validate(){
       const oInput = this.getView().getModel("input").getData()
