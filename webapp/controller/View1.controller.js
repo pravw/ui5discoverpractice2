@@ -187,16 +187,8 @@ sap.ui.define([
             // Show info header if there are any filters
          this.getView().byId('idFilterInfoToolbar').setVisible(aFilter.length ? true : false)
          this.getView().byId('idFilterText').setText(sFilterString)
-       
-
 
      },
-
-
-       
-
-
-
      _validate(){
       const oInput = this.getView().getModel("input").getData()
       const oValidationModel = this.getView().getModel("validate")

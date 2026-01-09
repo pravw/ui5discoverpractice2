@@ -7,6 +7,15 @@
     "applicationVersion": {
       "version": "0.0.1"
     },
+    "dataSources":{
+      "mainService":{
+        "uri": "/odata/V2/(S(wkdhtxbqzghrsv13jhgbxdxm))/OData/OData.svc/",
+        "type":"OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      }
+    },
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
     "resources": "resources.json",
@@ -47,15 +56,17 @@
       "cozy": true
     },
     "models": {
+      "":{
+        "dataSource":"mainService",
+        "settings":{
+          "useBatch":false
+        }
+      },
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
           "bundleName": "com.po.countdowntimer.i18n.i18n"
         }
-      },
-       "product":{
-        "type":"sap.ui.model.json.JSONModel",
-        "uri":"model/Products.json"        
       }
     },
     "resources": {
