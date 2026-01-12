@@ -59,7 +59,8 @@
       "":{
         "dataSource":"mainService",
         "settings":{
-          "useBatch":false
+          "useBatch":false,
+          "defaultCountMode":"Inline"
         }
       },
       "i18n": {

@@ -13,7 +13,7 @@
         <content>
 
             <Toolbar class="sapUiTinyMarginTop">
-                <Title text="ListHeader" />
+                <Title id="idListTitle" text="{i18n>listHeader}" />
                 <ToolbarSpacer />
                 <Button
                     icon="sap-icon://filter"
@@ -39,10 +39,11 @@
                 backgroundDesign="Transparent"
                 mode="Delete"
                 delete="onPressDelete"
-                growingThreshold="20"
-                
+                updateFinished="onProductLoaded"
+                growing="true"
+                growingThreshold="5"
                 >
-                <infoToolbar>
+                <infoToolbar> 
                 <Toolbar id="idFilterInfoToolbar" visible="false">
                 
                 <Text id="idFilterText" />

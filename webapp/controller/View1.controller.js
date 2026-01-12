@@ -189,6 +189,12 @@ sap.ui.define([
          this.getView().byId('idFilterText').setText(sFilterString)
 
      },
+      onProductLoaded:function(oEvent){
+     const sTitle = this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("listHeader")
+     this.getView().byId("idListTitle").setText(`${sTitle}(${oEvent.getParameter("total")})`)
+      },
+
+
      _validate(){
       const oInput = this.getView().getModel("input").getData()
       const oValidationModel = this.getView().getModel("validate")
