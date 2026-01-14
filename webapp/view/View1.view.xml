@@ -34,6 +34,9 @@
                 id="idList"
                 items="{
                 path:'/Products',
+                parameters:{
+                expand: 'Category'
+                },
                 groupHeaderFactory:'.formatter.formatGroupHeader'
                 }"
                 backgroundDesign="Transparent"
@@ -65,10 +68,7 @@
                         <attributes>
                         <ObjectAttribute 
                         title="Category" 
-                        text="{
-                        path:  'Category',
-                        formatter:'.formatter.formatCategory'
-                        }"/>
+                        text="{Category/Name}"/>
                         <ObjectAttribute 
                         title="ReleaseDate" 
                         text="{

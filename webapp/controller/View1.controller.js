@@ -4,9 +4,10 @@ sap.ui.define([
     "sap/ui/core/Fragment",
     "sap/ui/model/Sorter",
     "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
     "com/po/countdowntimer/model/models",
     "com/po/countdowntimer/model/formatter"
-], (Controller,coreLibrary,Fragment,Sorter,Filter,models,formatter) => {
+], (Controller,coreLibrary,Fragment,Sorter,Filter,FilterOperator,models,formatter) => {
     "use strict";
 
     return Controller.extend("com.po.countdowntimer.controller.View1", {
@@ -53,19 +54,15 @@ sap.ui.define([
       onPressAddNewProducts: function() {
    
       if (!this._oCreateProductDialog) {
-        Fragment.load({
-          id: this.getView().getId(),
-          name: "com.po.countdowntimer.view.fragments.CreateProduct",
-          controller: this
-        }).then(oDialog => {
-          this._oCreateProductDialog = oDialog
-          this.getView().addDependent(oDialog)
-          oDialog.open()
-        })
+           this._loadDialog("CreateProduct").then(oDialog =>{
+            this._oCreateProductDialog= oDialog
+            oDialog.open()
+           })
       } else {
         this._oCreateProductDialog.open()
       }
     },
+
     onPresscancelNewproduct: function () {
     this._oCreateProductDialog.close();
 
@@ -74,32 +71,21 @@ sap.ui.define([
       onSortButtonPressed:function (){
 
            if (!this._oSortDialog) {
-        Fragment.load({
-          id: this.getView().getId(),
-          name: "com.po.countdowntimer.view.fragments.SortDialog",
-          controller: this
-        }).then(oDialog => {
-          this._oSortDialog = oDialog
-          this.getView().addDependent(oDialog)
-          oDialog.open()
-        })
+           this._loadDialog("SortDialog").then(oDialog =>{
+            this._oSortDialog = oDialog
+            oDialog.open()
+           })
       } else {
         this._oSortDialog.open()
       }      
     },
 
         onFilterButtonPressed:function (){
-
            if (!this._oFilterDialog) {
-        Fragment.load({
-          id: this.getView().getId(),
-          name: "com.po.countdowntimer.view.fragments.filterDialog",
-          controller: this
-        }).then(oDialog => {
-          this._oFilterDialog = oDialog
-          this.getView().addDependent(oDialog)
-          oDialog.open()
-        })
+             this._loadDialog("filterDialog").then(oDialog =>{
+            this._oFilterDialog = oDialog
+            oDialog.open()
+           })
       } else {
         this._oFilterDialog.open()
       }      
@@ -108,15 +94,11 @@ sap.ui.define([
      onGroupButtonPressed:function (){
 
            if (!this._oGroupDialog) {
-        Fragment.load({
-          id: this.getView().getId(),
-          name: "com.po.countdowntimer.view.fragments.GroupDialog",
-          controller: this
-        }).then(oDialog => {
-          this._oGroupDialog = oDialog
-          this.getView().addDependent(oDialog)
-          oDialog.open()
-        })
+               this._loadDialog("GroupDialog").then(oDialog =>{
+            this._oGroupDialog = oDialog
+            oDialog.open()
+           })
+      
       } else {
         this._oGroupDialog.open()
       }      
@@ -163,20 +145,37 @@ sap.ui.define([
      onConfirmFilter:function(oEvent) {
 
       // Get filter items from the event object
-      const aFilterItems = oEvent.getParameter('filterItems')
+      const aFilterKeys = oEvent.getParameter("filterCompoundKeys")
       // const SFilterString = oEvent.getParameter("filterString")
      
       // this will bring the name from selected item
-      const sFilterString = oEvent.getParameter('filterString')
+      const sFilterString = oEvent.getParameter("filterString")
 
-      console.log(aFilterItems);
+      // console.log(aFilterItems);
       // Create filters array according to the selected filter items
-      const aFilter = []
 
-      aFilterItems.forEach(item => {
-       const [sPath, sOperator, sValue1, sValue2] = item.getKey().split('__')
-       aFilter.push(new Filter(sPath, sOperator, sValue1, sValue2))
-         })
+
+
+      const aFilter = []
+            Object.entries(aFilterKeys).forEach(([sPath, oValues]) => {
+        //  sPath       // e.g., "Category/ID"
+        //   oValues // e.g., { 0: true, 1: true }
+
+          Object.keys(oValues).forEach(sKey => {
+
+         //  sKey   // e.g., "0" or "1"
+          if (!sKey) {
+        return;
+      }
+
+        if (sKey.includes("__")) {
+            aFilter.push(new Filter(...sKey.split("__")))
+        } else {
+            aFilter.push(new Filter(sPath, FilterOperator.EQ, sKey));
+        }
+
+         });
+          });
          
           //  this will bind in ui
          this.getView()
@@ -189,6 +188,12 @@ sap.ui.define([
          this.getView().byId('idFilterText').setText(sFilterString)
 
      },
+
+
+   
+
+
+
       onProductLoaded:function(oEvent){
      const sTitle = this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("listHeader")
      this.getView().byId("idListTitle").setText(`${sTitle}(${oEvent.getParameter("total")})`)
@@ -209,7 +214,28 @@ sap.ui.define([
      // Return validation result
       return !Object.values(oValidationModel.getData()).includes(false)
 
-    }
+    },
+ _loadDialog(sFragmentName){
+  return new Promise ((resolve,reject)=> {
+      Fragment.load({
+          id: this.getView().getId(),
+          name: `com.po.countdowntimer.view.fragments.${sFragmentName}`,
+          controller: this
+        }).then(oDialog => {
+          
+          this.getView().addDependent(oDialog)
+          resolve(oDialog)
+        })
+        
+  })
+    
+
+
+
+
+
+ }
+
 });
 
 });
