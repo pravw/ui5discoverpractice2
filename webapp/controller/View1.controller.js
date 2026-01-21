@@ -106,23 +106,39 @@ sap.ui.define([
     },
 
     onPressUpdateproduct() {
-      const oView = this.getView()
+      // const oView = this.getView()
       const oModel = this.getView().getModel()
-      const sPath = this._oEditDialog.getBindingContext().getPath()
+      // const sPath = this._oEditDialog.getBindingContext().getPath()
 
 
-      const oPayload = {
-        Name: oView.byId("idEditProductName").getValue(),
-        Price: oView.byId("idPrice").getValue(),
-        ReleaseDate: oView.byId("idEditReleaseDate").getDateValue(),
-        DiscontinuedDate: oView.byId("idEditDiscontinued").getDateValue(),
-        Rating: oView.byId("idEditRating").getValue(),
-      }
+      // const oPayload = {
+      //   Name: oView.byId("idEditProductName").getValue(),
+      //   Price: oView.byId("idPrice").getValue(),
+      //   ReleaseDate: oView.byId("idEditReleaseDate").getDateValue(),
+      //   DiscontinuedDate: oView.byId("idEditDiscontinued").getDateValue(),
+      //   Rating: oView.byId("idEditRating").getValue(),
+      // }
 
 
 
-        oModel.update(sPath, oPayload, {
-        success: oData => {
+      //   oModel.update(sPath, oPayload, {
+      //   success: oData => {
+      //     this._oEditDialog.close()
+      //     MessageBox.information("Product has been updated")
+          
+      //     console.log("sucessfully updated")
+      //   },
+      //   error: () => {
+      //     this._oEditDialog.close()
+      //     MessageBox.error("Product could not be updated!")
+      //     console.error("Update failed:", oError);
+      //   }
+      // })
+
+    if(oModel.hasPendingChanges()){
+        oModel.submitChanges({
+
+            success: oData => {
           this._oEditDialog.close()
           MessageBox.information("Product has been updated")
           
@@ -133,48 +149,37 @@ sap.ui.define([
           MessageBox.error("Product could not be updated!")
           console.error("Update failed:", oError);
         }
-      })
+
+
+
+        })
+
+    }
+      
     
     },
 
 
 
-//     onPressUpdateproduct() {
-//     const oView = this.getView();
-//     const oModel = this.getView().getModel();
-//     const sPath = this._oEditDialog.getBindingContext().getPath();
-
-//     const oPayload = {
-//         Name: oView.byId("idEditProductName").getValue(),
-//         Price: oView.byId("idPrice").getValue(),
-//         ReleaseDate: oView.byId("idEditReleaseDate").getDateValue(),
-//         DiscontinuedDate: oView.byId("idEditDiscontinued").getDateValue(),
-//         Rating: oView.byId("idEditRating").getValue(),
-//     };
-
-//     oModel.update(sPath, oPayload);
-    
-//     // Submit the batch
-//     oModel.submitChanges({
-//         success: () => {
-//             this._oEditDialog.close();
-//             MessageBox.information("Product has been updated");
-//         },
-//         error: (oError) => {
-//             this._oEditDialog.close();
-//             MessageBox.error("Product could not be updated!");
-//             console.error(oError);
-//         }
-//     });
-// },
     onPressDelete: function(oEvent){
-
+      const oModel = this.getView().getModel()
       const oItem = oEvent.getParameter("listItem");
-      const oModel = this.getView().getModel("product")
-      const iIndex = oItem.getBindingContext("product").getPath().split("/").pop()
-      oModel.getData().items.splice(iIndex, 1)
-      oModel.refresh()
+
+ 
+
+      // Create path
+      const sPath = oModel.createKey("/Products", {
+        ID: oItem.getBindingContext().getProperty("ID")
+      })
+
+      // Send delete request
+      oModel.remove(sPath, {
+        success: () => {},
+        error: () => {},
+      })
     },
+
+  
 
       onPressAddNewProducts: function() {
    
