@@ -3,10 +3,10 @@
     xmlns:form="sap.ui.layout.form"
     xmlns="sap.m"
     xmlns:l="sap.ui.layout">
-    <Dialog title="{i18n>createNewProduct}" contentWidth="800px" afterClose="onAftercloseDialog">
+    <Dialog title="{i18n>editProduct}" contentWidth="800px" afterClose="onAftercloseDialog">
      <content>
          <form:SimpleForm
-            id="simpleform"
+            id="simpleformEdit"
             layout="ResponsiveGridLayout"
             editable="true"
             breakpointM="600px"
@@ -24,21 +24,20 @@
         >
             <form:content>
                 <core:Title    text="{i18n>productDetails}"/>
-                <Label  required="true"         id="idlable" text="{i18n>productName}" />
+                <Label          id="idlableEdit" text="{i18n>productName}" />
                 <Input
-                    id="input"
+                    id="idEditProductName"
                     maxLength="10"
-                    value="{input>/Name}"
+                    value="{Name}"
                     valueLiveUpdate="true"
-                    valueState= "{= ${validate>/Name} ?  'None' : 'Error'   }"
                 />
-                <Label required="true"  id="idlablecategory" text="{i18n>category}" />
+                <Label   id="idEditcategory" text="{i18n>category}" />
                 <ComboBox
-                    id="idcategory"
+                    id="idcategoryEdit"
                     placeholder="category"
-                    selectedKey="{input>/Category}"
+                    selectedKey="{Category/ID}"
                     items="{/Categories}"
-                    valueState= "{= ${validate>/Category} ?  'None' : 'Error'}"
+                    enabled="false"
                 >
                     <items>
                         <core:Item
@@ -48,22 +47,20 @@
                         
                     </items>
                 </ComboBox>
-                <Label  required="true" 
-                id="label" 
+                <Label   
+                id="labelEdit" 
                 text="{i18n>price}" 
                 />
                  <Input
-                id="idprice"
+                id="idPrice"
                 class="sapUiTinyMarginEnd"
                 valueLiveUpdate="true"
                 type="Number"
                 width="20rem"
                 maxLength="10"
-                value="{input>/Price}"
-                valueState= "{= ${validate>/Price} ?  'None' : 'Error'   }"
-            />
+                value="{Price}"/>
              
-            <Input id="input1"
+            <Input id="input2"
                             value="EUR"
                             editable="false"
                         >
@@ -73,22 +70,21 @@
             </Input>
             
             <core:Title    text="{i18n>dates}"/>
-            <Label  required="true"  id="labelreleasedate" text="{i18n>releasedate}" />
+            <Label  required="true"  id="labelreleaseDate" text="{i18n>releasedate}" />
             <DatePicker
-                id="idReleasedate"
-                dateValue="{input>/ReleaseDate}"  
-                valueState= "{= ${validate>/ReleaseDate} ?  'None' : 'Error'   }"
-                
+                id="idEditReleaseDate"
+                dateValue="{ReleaseDate}"  
             />
-            <Label id="labeldiscountdate" text="{i18n>discontinueddate}" />
+            <Label id="labeldiscountDate" text="{i18n>discontinueddate}" />
               <DatePicker
-                id="idDiscontinueddate"
-                dateValue="{input>/DiscontinuedDate}"
+                id="idEditDiscontinued"
+                dateValue="{DiscontinuedDate}"
                 valueState= "{= ${validate>/DiscontinuedDate} ?  'None' : 'Error' }"
             />
-            <Label id="Rating" text="{i18n>ratingIndicator}" />
+            <Label id="RatingEdit" text="{i18n>ratingIndicator}" />
             <RatingIndicator
-                value="{input>/Rating}"
+                id="idEditRating"
+                value="{Rating}"
                 maxValue="5"
                 editable="true"
                 />
@@ -102,18 +98,19 @@
 
     <beginButton>
         <Button
-            id="button"
-            text="{i18n>create}"
-            press="onPressNewproduct"
+            id="buttonEdit"
+            text="{i18n>update}"
+           
+            press="onPressUpdateproduct"
             type="Emphasized"
         />
     </beginButton>
 
     <endButton>
     <Button
-            id="buttonend"
-            text="{i18n>cancel}"
-            press="onPresscancelNewproduct"
+            id="buttonEndEdit"
+             text="{i18n>create}"
+            press="onPressCancelEditproduct"
             type="Emphasized"
         />
     </endButton>

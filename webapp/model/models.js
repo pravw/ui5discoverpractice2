@@ -15,35 +15,22 @@ function (JSONModel,BindingMode, Device) {
                 Category:"",
                 Price:"",
                 ReleaseDate:null,
-                DiscountinuedDate:null,
+                DiscontinuedDate:null,
+                Rating:0,
             }).setDefaultBindingMode(BindingMode.TwoWay)
         },
 
 
-              createValidationModel: function () {
+            createValidationModel: function () {
          
             return new JSONModel({
                 Name:true,
                 Category:true,
                 Price:true,
                 ReleaseDate:true,
-                DiscountinuedDate:true,
+                DiscontinuedDate:true,
             }).setDefaultBindingMode(BindingMode.TwoWay)
         },
-
-
-        
-
-
-        
-
-
-
-
-
-
-
-
 
     };
 

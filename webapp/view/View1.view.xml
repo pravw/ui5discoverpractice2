@@ -58,6 +58,8 @@
 
                 <items>
                         <ObjectListItem title="{Name}" 
+                        type="Active"
+                        press="onItemPress"
                         number="{
                         parts:['Price','Currency'],
                         type: 'sap.ui.model.type.Currency',

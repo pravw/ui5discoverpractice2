@@ -1,13 +1,14 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/core/library",
     "sap/ui/core/Fragment",
     "sap/ui/model/Sorter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "sap/m/MessageBox",
+    "sap/ui/model/Context", 
     "com/po/countdowntimer/model/models",
     "com/po/countdowntimer/model/formatter"
-], (Controller,coreLibrary,Fragment,Sorter,Filter,FilterOperator,models,formatter) => {
+], (Controller,Fragment,Sorter,Filter,FilterOperator,MessageBox,Context,models,formatter) => {
     "use strict";
 
     return Controller.extend("com.po.countdowntimer.controller.View1", {
@@ -15,7 +16,9 @@ sap.ui.define([
       
    onPressNewproduct: function(){
 
-    const oData = this.getView().getModel("input").getData()
+    const oPayload = this.getView().getModel("input").getData()
+
+
 
 
 
@@ -25,18 +28,145 @@ sap.ui.define([
         return;
       }
 
-         
-    const oProductModel = this.getView().getModel("product");
-     const aItems = oProductModel.getProperty("/items") 
 
+       oPayload.ID = Date.now().toString().slice(-4)
+        delete oPayload.Category
+        delete oPayload.Currency
 
-      aItems.push(oData)
-       oProductModel.setProperty("/items", aItems)
+        // send the create request 
 
-   this._oCreateProductDialog.close();
+        this.getView().getModel().create("/Products", oPayload, {
+        success: (oData, oResponse) => {
+          console.log(oData, oResponse)
+          this._oCreateProductDialog.close()
+        },
+        error: oError => {
+          console.log(oError)
+           this._oCreateProductDialog.close()
+             }
+      })
 
     },
+    onItemPress: function(oEvent){
+      //  MessageBox.show(oEvent.getSource().getBindingContext().getProperty("Description"), {
+      //   title: "Description"
+      // }) 
 
+      const oModel = this.getView().getModel()
+      const ID = oEvent.getSource().getBindingContext().getProperty("ID")
+         const sPath = oModel.createKey("/Products", {
+         ID
+       })
+      //  oModel.read(`/Products(${ID})`, {
+      //   success: oData => {
+      //     MessageBox.show(oData.Description, {
+      //       title: "Description"
+      //     })
+      //   }
+      // }) 
+
+
+
+
+
+      // // const sPath = oModel.createKey("/Products", {
+      // //   ID
+      // // })
+
+      // oModel.read(sPath, {
+      //   success: oData => {
+      //     MessageBox.show(oData.Description, {
+      //       title: "Description"
+      //     })
+      //   }
+      // }) 
+
+      // MessageBox.show(oModel.getProperty(`${sPath}/Description`), {
+      //   title: "Description"
+      // }) 
+
+      if (!this._oEditDialog) {
+        Fragment.load({
+          id: this.getView().getId(),
+          name: "com.po.countdowntimer.view.fragments.Edit",
+          controller: this,
+        }).then(oDialog => {
+          this._oEditDialog = oDialog
+          this.getView().addDependent(oDialog)
+          this._oEditDialog.setBindingContext(new Context(oModel, sPath))
+          oDialog.open()
+        })
+      } else {
+        this._oEditDialog.open()
+      }
+    },
+    onPressCancelEditproduct(){
+
+      this._oEditDialog.close()
+    },
+
+    onPressUpdateproduct() {
+      const oView = this.getView()
+      const oModel = this.getView().getModel()
+      const sPath = this._oEditDialog.getBindingContext().getPath()
+
+
+      const oPayload = {
+        Name: oView.byId("idEditProductName").getValue(),
+        Price: oView.byId("idPrice").getValue(),
+        ReleaseDate: oView.byId("idEditReleaseDate").getDateValue(),
+        DiscontinuedDate: oView.byId("idEditDiscontinued").getDateValue(),
+        Rating: oView.byId("idEditRating").getValue(),
+      }
+
+
+
+        oModel.update(sPath, oPayload, {
+        success: oData => {
+          this._oEditDialog.close()
+          MessageBox.information("Product has been updated")
+          
+          console.log("sucessfully updated")
+        },
+        error: () => {
+          this._oEditDialog.close()
+          MessageBox.error("Product could not be updated!")
+          console.error("Update failed:", oError);
+        }
+      })
+    
+    },
+
+
+
+//     onPressUpdateproduct() {
+//     const oView = this.getView();
+//     const oModel = this.getView().getModel();
+//     const sPath = this._oEditDialog.getBindingContext().getPath();
+
+//     const oPayload = {
+//         Name: oView.byId("idEditProductName").getValue(),
+//         Price: oView.byId("idPrice").getValue(),
+//         ReleaseDate: oView.byId("idEditReleaseDate").getDateValue(),
+//         DiscontinuedDate: oView.byId("idEditDiscontinued").getDateValue(),
+//         Rating: oView.byId("idEditRating").getValue(),
+//     };
+
+//     oModel.update(sPath, oPayload);
+    
+//     // Submit the batch
+//     oModel.submitChanges({
+//         success: () => {
+//             this._oEditDialog.close();
+//             MessageBox.information("Product has been updated");
+//         },
+//         error: (oError) => {
+//             this._oEditDialog.close();
+//             MessageBox.error("Product could not be updated!");
+//             console.error(oError);
+//         }
+//     });
+// },
     onPressDelete: function(oEvent){
 
       const oItem = oEvent.getParameter("listItem");
@@ -44,11 +174,6 @@ sap.ui.define([
       const iIndex = oItem.getBindingContext("product").getPath().split("/").pop()
       oModel.getData().items.splice(iIndex, 1)
       oModel.refresh()
-
-
-
-      
-     
     },
 
       onPressAddNewProducts: function() {
@@ -208,13 +333,17 @@ sap.ui.define([
 
       oValidationModel.setProperty("/Name", !! oInput.Name)
       oValidationModel.setProperty("/Category", !! oInput.Category)
+      oValidationModel.setProperty("/Price", !!oInput.Price);
       oValidationModel.setProperty("/ReleaseDate", !! oInput.ReleaseDate)
-      oValidationModel.setProperty("/DiscountinuedDate", !! oInput.DiscountinuedDate)
+      // oValidationModel.setProperty("/DiscontinuedDate", !! oInput.DiscontinuedDate)
 
      // Return validation result
       return !Object.values(oValidationModel.getData()).includes(false)
 
     },
+
+
+    
  _loadDialog(sFragmentName){
   return new Promise ((resolve,reject)=> {
       Fragment.load({
@@ -228,14 +357,8 @@ sap.ui.define([
         })
         
   })
-    
-
-
-
-
-
  }
 
-});
+})
 
 });
