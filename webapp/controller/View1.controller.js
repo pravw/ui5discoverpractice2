@@ -48,15 +48,27 @@ sap.ui.define([
 
     },
     onItemPress: function(oEvent){
+            const oRouter = sap.ui.core.UIComponent.getRouterFor(this)
+
+                  oRouter.navTo('detail')
+
+    
+
+
+
+
+
+
+
       //  MessageBox.show(oEvent.getSource().getBindingContext().getProperty("Description"), {
       //   title: "Description"
       // }) 
 
-      const oModel = this.getView().getModel()
-      const ID = oEvent.getSource().getBindingContext().getProperty("ID")
-         const sPath = oModel.createKey("/Products", {
-         ID
-       })
+      // const oModel = this.getView().getModel()
+      // const ID = oEvent.getSource().getBindingContext().getProperty("ID")
+      //    const sPath = oModel.createKey("/Products", {
+      //    ID
+      //  })
       //  oModel.read(`/Products(${ID})`, {
       //   success: oData => {
       //     MessageBox.show(oData.Description, {
@@ -85,20 +97,20 @@ sap.ui.define([
       //   title: "Description"
       // }) 
 
-      if (!this._oEditDialog) {
-        Fragment.load({
-          id: this.getView().getId(),
-          name: "com.po.countdowntimer.view.fragments.Edit",
-          controller: this,
-        }).then(oDialog => {
-          this._oEditDialog = oDialog
-          this.getView().addDependent(oDialog)
-          this._oEditDialog.setBindingContext(new Context(oModel, sPath))
-          oDialog.open()
-        })
-      } else {
-        this._oEditDialog.open()
-      }
+      // if (!this._oEditDialog) {
+      //   Fragment.load({
+      //     id: this.getView().getId(),
+      //     name: "com.po.countdowntimer.view.fragments.Edit",
+      //     controller: this,
+      //   }).then(oDialog => {
+      //     this._oEditDialog = oDialog
+      //     this.getView().addDependent(oDialog)
+      //     this._oEditDialog.setBindingContext(new Context(oModel, sPath))
+      //     oDialog.open()
+      //   })
+      // } else {
+      //   this._oEditDialog.open()
+      // }
     },
     onPressCancelEditproduct(){
 

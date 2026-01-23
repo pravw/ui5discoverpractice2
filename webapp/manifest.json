@@ -93,16 +93,29 @@
       "routes": [
         {
           "name": "RouteView1",
-          "pattern": ":?query:",
+          "pattern": "",
           "target": [
             "TargetView1"
+          ]
+        },
+          {
+          "name": "detail",
+          "pattern": "detail",
+          "target": [
+            "TargetDetail"
           ]
         }
       ],
       "targets": {
         "TargetView1": {
-          "id": "View1",
-          "name": "View1"
+          "id": "idTargetView1",
+          "name": "View1",
+          "level": 1
+        },
+        "TargetDetail": {
+          "id": "idTargetDetail",
+          "name": "Detail",
+          "level": 2
         }
       }
     },
