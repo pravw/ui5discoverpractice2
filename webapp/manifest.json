@@ -95,27 +95,39 @@
           "name": "RouteView1",
           "pattern": "",
           "target": [
-            "TargetView1"
+            "targetView1"
           ]
         },
           {
           "name": "detail",
           "pattern": "detail",
           "target": [
-            "TargetDetail"
+            "targetDetail"
+          ]
+        },
+          {
+          "name": "edit",
+          "pattern": "edit",
+          "target": [
+            "targetEdit"
           ]
         }
       ],
       "targets": {
-        "TargetView1": {
+        "targetView1": {
           "id": "idTargetView1",
           "name": "View1",
           "level": 1
         },
-        "TargetDetail": {
+        "targetDetail": {
           "id": "idTargetDetail",
           "name": "Detail",
           "level": 2
+        },
+      "targetEdit": {
+          "id": "idTargetEdit",
+          "name": "Edit",
+          "transition" :"show"
         }
       }
     },

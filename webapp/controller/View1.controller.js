@@ -1,5 +1,5 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
+    "./BaseController",
     "sap/ui/core/Fragment",
     "sap/ui/model/Sorter",
     "sap/ui/model/Filter",
@@ -8,10 +8,10 @@ sap.ui.define([
     "sap/ui/model/Context", 
     "com/po/countdowntimer/model/models",
     "com/po/countdowntimer/model/formatter"
-], (Controller,Fragment,Sorter,Filter,FilterOperator,MessageBox,Context,models,formatter) => {
+], (BaseController,Fragment,Sorter,Filter,FilterOperator,MessageBox,Context,models,formatter) => {
     "use strict";
 
-    return Controller.extend("com.po.countdowntimer.controller.View1", {
+    return BaseController.extend("com.po.countdowntimer.controller.View1", {
       formatter:formatter,
       
    onPressNewproduct: function(){
@@ -48,16 +48,9 @@ sap.ui.define([
 
     },
     onItemPress: function(oEvent){
-            const oRouter = sap.ui.core.UIComponent.getRouterFor(this)
+            const oRouter = this.getRouter()
 
                   oRouter.navTo('detail')
-
-    
-
-
-
-
-
 
 
       //  MessageBox.show(oEvent.getSource().getBindingContext().getProperty("Description"), {

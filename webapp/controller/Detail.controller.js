@@ -1,11 +1,16 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], function(Controller) {
+    "./BaseController"
+], function(BaseController) {
     "use strict";
 
-    return Controller.extend("com.po.countdowntimer.controller.Detail", {
-        onInit: function() {
-            console.log("Detail page loaded successfully!");
+    return BaseController.extend("com.po.countdowntimer.controller.Detail", {
+
+        onPressEdit: function(){
+
+                //  this.getRouter().navTo("edit", {}, true /* no history */)
+                 this.getRouter().getTargets().display('targetEdit')
+
         }
+
     });
 });
