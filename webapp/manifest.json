@@ -100,7 +100,7 @@
         },
           {
           "name": "detail",
-          "pattern": "detail",
+          "pattern": "detail/{productID}:?query:",
           "target": [
             "targetDetail"
           ]
